@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;    
+}
+
+* {
+    box-sizing: border-box;
+    touch-action: none;
+}
+
+#words {
+    height: 20%;
+    font-size: 12vmin;
+    text-align: center;
+    overflow: visible;
+}
+
+#clue {
+    color: #bbbbbb;
+}
+
+#letters {
+    height: 80%;
+    font-size: 80vmin;
+    overflow: scroll;
+    cursor:pointer;
+    text-align: center;
+}
+
+#debug {
+    display: none;
+}
