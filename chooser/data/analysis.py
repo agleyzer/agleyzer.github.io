@@ -14,12 +14,13 @@ f = open(input, "r", encoding="utf-8")
 
 bigrams = defaultdict(lambda: defaultdict(lambda: 0))
 trigrams = defaultdict(lambda: defaultdict(lambda: 0))
+words = defaultdict(lambda: 0)
 
 spec_chars = string.punctuation + '\n\xa0«»\t—…'
 
 def process_word(word, cost):
+    words[word] = words[word]+cost
     word = '*' + word
-    # print(word)
     for i in range(0, len(word)-1):
         (a, b) = (word[i], word[i+1])
         bigrams[a][b] = bigrams[a][b]+cost
@@ -62,7 +63,6 @@ def to_json(data, keys):
 bi_json = to_json(bigrams, alphabet + '*')
 tri_json = to_json(trigrams, trigrams.keys())
 
-
 with tempfile.NamedTemporaryFile(mode='w+', encoding='utf8') as tmp:
     tmp.write('const bigrams = ')
     json.dump(bi_json, tmp, ensure_ascii=False, indent=2)
@@ -72,7 +72,13 @@ with tempfile.NamedTemporaryFile(mode='w+', encoding='utf8') as tmp:
     json.dump(tri_json, tmp, ensure_ascii=False, indent=2)
     tmp.write(';\n\n')
 
-    tmp.write('export { bigrams, trigrams };\n')
+    word_tuples = sorted([(v, k) for k, v in words.items()], reverse=True)
+
+    tmp.write('const words = ')
+    json.dump([k for (v, k) in word_tuples[:5000]], tmp, ensure_ascii=False, indent=2)
+    tmp.write(';\n\n')
+
+    tmp.write('export { bigrams, trigrams, words };\n')
     tmp.seek(0)
 
     out = open(output, 'w')

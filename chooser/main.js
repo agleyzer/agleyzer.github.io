@@ -1,4 +1,4 @@
-import { bigrams, trigrams } from './data.js';
+import { bigrams, trigrams, words } from './data.js';
 
 const defaultAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 let alphabet = defaultAlphabet;
@@ -12,17 +12,17 @@ const clue = document.getElementById('clue');
 
 function updateAlphabet() {
     let text = word.innerText;
-    let newAlphabet = defaultAlphabet;
+    let newAlphabet = null;
     let key = '';
 
-    if (text.length >= 1) {
-        key = ('*' + text).slice(-2);
+    if (text.length >= 2) {
+        key = text.slice(-2);
         newAlphabet = trigrams[key];
     }
 
-    // empty text OR nothing found in trigrams
-    if (text.length == 0 || !newAlphabet) {
-        key = '*'; 
+    // diff text size OR nothing found in trigrams
+    if (!newAlphabet) {
+        key = text.length >= 1 ? text.slice(-1) : '*'; 
         newAlphabet = bigrams[key]; 
     } 
 
@@ -32,7 +32,7 @@ function updateAlphabet() {
     } 
     
     if (newAlphabet != alphabet) {
-        console.log("key", key, "new alphabet: ", newAlphabet);
+        console.log(key, " => ", newAlphabet);
         alphabet = newAlphabet;
         currentLetter = 0; 
         setLetter();    
@@ -47,7 +47,7 @@ word.addEventListener('click', (e) => {
     clue.innerText = '';
 });
 
-letters.addEventListener('click', (e) => {
+letters.addEventListener('click', e => {
     word.innerText += e.target.innerText;
 });
 
@@ -55,6 +55,18 @@ const setLetter = () => {
     const l = alphabet[currentLetter];
     letters.innerText = l;
     clue.innerText = l; 
+
+    const findClue = needle => {
+        const n = words.findIndex(w => w.startsWith(needle));
+        if (n >= 0) {
+            console.log("found word", words[n]);
+            clue.innerText = words[n].slice(needle.length-1);
+            return true;
+        }
+        return false;
+    }
+
+    findClue(word.innerText + l) || findClue(word.innerText.slice(-3) + l)
 }
 
 const incLetter = () => {
@@ -118,8 +130,8 @@ const gestureMove = (e) => {
     const f = accumXDelta > 0 ? incLetter : decLetter;
     const step = window.innerWidth / 4;
 
-    console.log(currTouch.x, currTouch.x - lastTouch.x, "delta", accumXDelta);
-    debug(`${accumXDelta} ${step}`);
+    // console.log(currTouch.x, currTouch.x - lastTouch.x, "delta", accumXDelta);
+    // debug(`${accumXDelta} ${step}`);
 
     // delete last character
     if (!lastDeleted && accumXDelta < -step) {
