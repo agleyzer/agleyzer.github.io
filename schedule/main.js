@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displaySchedule();
     if ('serviceWorker' in navigator) {   
         console.log("registering service workers");
-        navigator.serviceWorker.register("/serviceworker.js");
+        navigator.serviceWorker.register("serviceworker.js");
     }
 });
 

@@ -4,12 +4,11 @@ self.addEventListener("install", (event) => {
             .open("v1")
             .then((cache) =>
                 cache.addAll([
-                    "/",
-                    "/index.html",
-                    "/main.js",
-                    "/calendar.js",
-                    "/swipe.js",
-                    "/icon.png"
+                    "index.html",
+                    "main.js",
+                    "calendar.js",
+                    "swipe.js",
+                    "icon.png"
                 ]),
             ),
     );
