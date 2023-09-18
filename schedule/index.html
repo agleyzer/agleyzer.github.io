@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<link rel="manifest" href="manifest.json">
+
+	<!-- ios specific voodoo 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="white">
+	<link href="/bthslogo_318x314.jpg" sizes="318x14" rel="apple-touch-startup-image" />
+    -->
+
+	<style>
+		body {
+			font-family: Helvetica, Arial, sans-serif;
+			/* Use Helvetica as the primary font */
+			background-color #fffff;
+			color: #444444;
+			font-size: 2vh;
+
+			width: 100vw;
+			height: 100vh;
+			padding: 1vh;
+
+			overscroll-behavior: none;
+			overflow: hidden;
+			position: fixed;
+		}
+
+		#date-header {
+			overflow: hidden;
+			font-size: 7vh;
+			font-weight: bold;
+			white-space: nowrap;
+			padding-bottom: 2vh;
+		}
+
+		/* Style for the class cards */
+		.class-card {
+			color: #aaaaaa;
+			padding-bottom: .5vh;
+		}
+
+		.subject {
+			color: #000000;
+			font-size: 4vh;
+		}
+	</style>
+	<script src="schedule.js"></script>
+	<script src="calendar.js"></script>
+	<script src="main.js"></script>
+	<script src="swipe.js"></script>
+</head>
+
+<body>
+	<div id="date-header"></div>
+
+	<!-- Create a container for the class cards -->
+	<div id="class-container"></div>
+
+</body>
+
+</html>
